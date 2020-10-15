@@ -4,7 +4,8 @@
   "description": "resize images with api calls",
   "main": "app.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "develop": "nodemon app.js",
+    "start": "node app.js"
   },
   "keywords": [
     "image",
@@ -14,7 +15,11 @@
   "author": "Nik Vogrinec",
   "license": "MIT",
   "dependencies": {
+    "body-parser": "^1.19.0",
     "express": "^4.17.1",
+    "express-rate-limit": "^5.1.3",
+    "express-rate-limiter": "^1.3.1",
+    "multer": "^1.4.2",
     "sharp": "^0.26.2"
   }
 }
