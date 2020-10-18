@@ -1,6 +1,6 @@
 {
   "name": "image-resizer-api",
-  "version": "0.0.1",
+  "version": "0.0.3",
   "description": "resize images with api calls",
   "main": "app.js",
   "scripts": {
@@ -15,7 +15,7 @@
   "author": "Nik Vogrinec",
   "license": "MIT",
   "dependencies": {
-    "body-parser": "^1.19.0",
+    "cors": "^2.8.5",
     "express": "^4.17.1",
     "express-rate-limit": "^5.1.3",
     "express-rate-limiter": "^1.3.1",
