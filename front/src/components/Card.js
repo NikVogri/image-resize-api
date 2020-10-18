@@ -57,7 +57,7 @@ export default function Card() {
         imageData.append("image", images[i].image);
 
         const res = await axios.post(
-          "http://localhost:3000/api/v1/resize/50/50",
+          process.env.GATSBY_API_URL + "/api/v1/resize/50/50",
           imageData,
           {
             headers: {
