@@ -2,8 +2,6 @@ import React from "react";
 
 import Layout from "../components/layout";
 import SEO from "../components/seo";
-// import Alert from "../components/Alert";
-import Card from "../components/Card";
 
 function IndexPage() {
   return (
@@ -12,9 +10,9 @@ function IndexPage() {
         keywords={[`gatsby`, `tailwind`, `react`, `tailwindcss`]}
         title="Home"
       />
-      {/* <Alert /> */}
+
       <section className="text-center">
-        <Card />
+        <p>hello, welcome to my resizer</p>
       </section>
     </Layout>
   );
