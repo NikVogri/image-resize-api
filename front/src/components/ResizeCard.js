@@ -1,16 +1,21 @@
 import React, { useState } from "react";
-import Image from "./Image";
-import ImageUpload from "./ImageUpload";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faSync } from "@fortawesome/free-solid-svg-icons";
+import ImageUpload from "./UploadForm/ImageUpload";
+import StartConversion from "./UploadForm/StartConversion";
+
 import axios from "axios";
 
 export default function Card() {
   const [images, setImages] = useState([]);
-  const [loading, setLoading] = useState(false);
+  const [showUpload, setShowUpload] = useState(true);
+  const [conversionFinished, setConversionFinished] = useState(false);
 
   const addImageToListHandler = (uploadedImages) => {
     let unique = true;
+
+    if (uploadedImages.length > 8) {
+      console.log("Up to 8 images");
+      return;
+    }
 
     images.forEach((image) => {
       uploadedImages.forEach((uploadedImage) => {
@@ -30,6 +35,7 @@ export default function Card() {
 
     if (unique) {
       setImages([...images, ...cleanUploadedImages]);
+      setShowUpload(false);
     } else {
       console.log("Image exists");
     }
@@ -41,10 +47,9 @@ export default function Card() {
     );
   };
 
-  const convertImagesHandler = async () => {
+  const convertImagesHandler = async (width, height) => {
     console.log(images);
     try {
-      setLoading(true);
       let newImagesState = [...images];
       for (let i = 0; i < images.length; i++) {
         newImagesState[i] = {
@@ -57,7 +62,7 @@ export default function Card() {
         imageData.append("image", images[i].image);
 
         const res = await axios.post(
-          process.env.GATSBY_API_URL + "/api/v1/resize/50/50",
+          `${process.env.GATSBY_API_URL}/api/v1/resize/${width}/${height}`,
           imageData,
           {
             headers: {
@@ -74,49 +79,34 @@ export default function Card() {
           completed: true,
         };
         setImages(newImagesState);
+        setConversionFinished(true);
       }
-      setLoading(false);
     } catch (err) {
       console.log(err);
       return;
     }
   };
 
-  console.log(loading);
+  const resetHandler = () => {
+    setShowUpload(true);
+    setImages([]);
+    setConversionFinished(false);
+  };
 
   return (
-    <div className="bg-white w-full md:max-w-4xl rounded-lg shadow py-4">
-      <div className="h-12 border-b border-gray-200 m-4">
-        <div className="text-xl text-left font-bold text-gray-700 pt-3">
-          Upload Images
-        </div>
-      </div>
-
-      <div className="px-6">
-        <ImageUpload addImageToList={addImageToListHandler} />
-
-        {images.map((image) => (
-          <Image
-            image={image}
-            key={image.image.lastModified}
-            removeFromList={removeImageFromListHandler}
-          />
-        ))}
-      </div>
-      {images.length ? (
-        <div className="p-6 ">
-          <button
-            onClick={convertImagesHandler}
-            className="p-4 bg-green-400 hover:bg-green-500 w-full rounded-lg shadow text-xl font-medium uppercase text-white"
-          >
-            Convert{" "}
-            <span>
-              <FontAwesomeIcon icon={faSync} />
-            </span>
-          </button>
-        </div>
-      ) : (
-        ""
+    <div
+      className="bg-white w-full rounded-lg shadow  p-6"
+      style={{ height: "70vh" }}
+    >
+      {showUpload && <ImageUpload addImageToList={addImageToListHandler} />}
+      {!showUpload && (
+        <StartConversion
+          uploadedImages={images}
+          removeFromList={removeImageFromListHandler}
+          convertImages={convertImagesHandler}
+          conversionFinished={conversionFinished}
+          showUploadForm={resetHandler}
+        />
       )}
     </div>
   );

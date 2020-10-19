@@ -1,53 +1,43 @@
 import React, { useEffect } from "react";
+import { motion } from "framer-motion";
 import PropTypes from "prop-types";
 
-export default function Image({ image, removeFromList }) {
+export default function ReadyToUploadImage({ image, removeFromList }) {
   // const [download, setDownload] = useState(null);
 
   useEffect(() => {
     console.log(image);
   }, [image]);
-  return (
-    <div className="flex justify-between items-center h-16 p-4 my-6 rounded-lg border border-gray-100 shadow-md relative">
-      <div
-        className={`
-        absolute
-        z-30
-        inset-0
-        py-6
-        rounded-lg
-        bg-green-400
-        w-0
-        text-white
-        loading-transition
-        ${image.loading && "w-6/12"}
-        ${image.completed && "w-full"}`}
-      ></div>
 
-      <div className="flex items-center relative z-30">
+  return (
+    <motion.div
+      className="flex justify-between items-center rounded-lg h-full "
+      initial={{ left: "-20px" }}
+      animate={{ left: 0 }}
+      layout
+      transition={{ duration: 0.2 }}
+    >
+      <div
+        className={`flex items-center relative h-full ${
+          image.completed
+            ? "border-8  rounded solid border-green-400"
+            : "border-8  rounded solid border-gray-200"
+        }`}
+      >
         <img
-          className="rounded-full h-12 w-12"
           src={URL.createObjectURL(image.image)}
           alt="Logo"
+          style={{ objectFit: "cover" }}
         />
-        <div className="ml-2">
-          <div
-            className={`text-sm font-semibold ${
-              image.loading || (image.completed && "text-gray-600")
-            }`}
-          >
-            <span>{image.image.name}</span>
-          </div>
-        </div>
-      </div>
-      <div className="relative z-30">
         {!image.completed && (
-          <button
-            className="bg-red-400 hover:bg-red-500 p-2 rounded-full shadow-md flex justify-center items-center"
+          <motion.button
+            className="bg-red-400 hover:bg-red-500 p-1 rounded-full right-0 top-0 absolute shadow-md mt-2 mr-2"
             onClick={() => removeFromList(image.image)}
+            whileHover={{ scale: 1.1 }}
+            whileTap={{ scale: 0.9 }}
           >
             <svg
-              className="text-white toggle__lock w-6 h-6"
+              className="text-white toggle__lock w-5 h-5"
               xmlns="http://www.w3.org/2000/svg"
               fill="none"
               viewBox="0 0 24 24"
@@ -60,11 +50,11 @@ export default function Image({ image, removeFromList }) {
                 d="M6 18L18 6M6 6l12 12"
               />
             </svg>
-          </button>
+          </motion.button>
         )}
         {image.completed && (
           <a
-            className="bg-red-400 hover:bg-blue-600 p-2 rounded-full shadow-md flex justify-center items-center"
+            className="bg-green-400 hover:bg-blue-600 p-2 rounded-full right-0 top-0 absolute shadow-md mt-2 mr-2 "
             href={"data:application/octet-stream;base64," + image.download}
             download={image.image.name}
           >
@@ -88,11 +78,11 @@ export default function Image({ image, removeFromList }) {
           </a>
         )}
       </div>
-    </div>
+    </motion.div>
   );
 }
 
-Image.propTypes = {
+ReadyToUploadImage.propTypes = {
   image: PropTypes.object,
   removeFromList: PropTypes.func,
   loading: PropTypes.bool,

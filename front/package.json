@@ -8,6 +8,7 @@
     "@fortawesome/free-solid-svg-icons": "^5.15.1",
     "@fortawesome/react-fontawesome": "^0.1.11",
     "axios": "^0.20.0",
+    "framer-motion": "^2.9.1",
     "gatsby": "2.24.77",
     "gatsby-plugin-manifest": "2.4.34",
     "gatsby-plugin-offline": "3.2.31",

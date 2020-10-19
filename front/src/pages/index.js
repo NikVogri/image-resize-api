@@ -3,7 +3,7 @@ import React from "react";
 import Layout from "../components/layout";
 import SEO from "../components/seo";
 // import Alert from "../components/Alert";
-import Card from "../components/Card";
+import ResizeCard from "../components/ResizeCard";
 
 function IndexPage() {
   return (
@@ -13,8 +13,8 @@ function IndexPage() {
         title="Home"
       />
       {/* <Alert /> */}
-      <section className="text-center">
-        <Card />
+      <section className="text-center container">
+        <ResizeCard />
       </section>
     </Layout>
   );
