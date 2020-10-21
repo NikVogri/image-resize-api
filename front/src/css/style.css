@@ -14,9 +14,18 @@ bottom: 50px;
 position: absolute;
 }
 
+.button {
+  @apply .mt-8 .bg-blue-900 .transition .duration-200 text-white .px-2 .py-2  .rounded .font-medium .flex .flex-row-reverse .items-center;
+}
+
+.button:hover {
+  @apply .bg-blue-800
+}
+
 @media only screen and (max-width: 660px) {
   .alert{
     left: 5%;
     width: 90%;
   }
 }
+

@@ -1,18 +1,23 @@
-import React from "react";
+import React, { useContext } from "react";
 import { useDropzone } from "react-dropzone";
-import PropTypes from "prop-types";
+import ImageContext from "../../context/imageContext";
 import uploadPng from "../../images/upload_images.png";
 import { motion } from "framer-motion";
+import PropTypes from "prop-types";
 
-export default function ImageUpload({ addImageToList }) {
+export default function ImageUpload({ nextComponent }) {
   const { getRootProps, getInputProps } = useDropzone({
     accept: "image/jpeg, image/png",
     onDrop,
   });
 
+  const { addImages } = useContext(ImageContext);
+
   function onDrop(acceptedFiles) {
     console.log(acceptedFiles);
-    addImageToList(acceptedFiles);
+    addImages(acceptedFiles);
+    console.log(typeof nextComponent);
+    nextComponent();
   }
 
   return (
@@ -47,5 +52,5 @@ export default function ImageUpload({ addImageToList }) {
 }
 
 ImageUpload.propTypes = {
-  addImageToList: PropTypes.func,
+  nextComponent: PropTypes.func,
 };

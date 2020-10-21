@@ -6,6 +6,7 @@ import Layout from "../components/layout";
 import SEO from "../components/seo";
 import Alert from "../components/Alert";
 import ResizeCard from "../components/ResizeCard";
+import ImageProvider from "../components/Providers/ImageProvider";
 
 function IndexPage() {
   const { alert } = useContext(AlertContext);
@@ -19,9 +20,11 @@ function IndexPage() {
       <AnimatePresence onExitComplete>
         {alert.message && <Alert type={alert.type} message={alert.message} />}
       </AnimatePresence>
-      <section className="text-center container">
-        <ResizeCard />
-      </section>
+      <ImageProvider>
+        <section className="text-center container">
+          <ResizeCard />
+        </section>
+      </ImageProvider>
     </Layout>
   );
 }
