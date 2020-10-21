@@ -1,7 +1,7 @@
 import React, { useContext } from "react";
 
 import AlertContext from "../context/alertContext";
-
+import { AnimatePresence } from "framer-motion";
 import Layout from "../components/layout";
 import SEO from "../components/seo";
 import Alert from "../components/Alert";
@@ -11,12 +11,14 @@ function IndexPage() {
   const { alert } = useContext(AlertContext);
 
   return (
-    <Layout>
+    <Layout className="relative">
       <SEO
         keywords={[`gatsby`, `tailwind`, `react`, `tailwindcss`]}
         title="Home"
       />
-      {alert.message && <Alert type={alert.type} message={alert.message} />}
+      <AnimatePresence onExitComplete>
+        {alert.message && <Alert type={alert.type} message={alert.message} />}
+      </AnimatePresence>
       <section className="text-center container">
         <ResizeCard />
       </section>

@@ -1,16 +1,22 @@
 import React from "react";
 import PropTypes from "prop-types";
+import { motion } from "framer-motion";
 
 export default function Alert({ message, type }) {
   return (
-    <div className="flex bg-red-200  mb-4 rounded-lg">
+    <motion.div
+      initial={{ y: "-150px", opacity: 0 }}
+      animate={{ y: 0, opacity: 1 }}
+      exit={{ y: "-150px", opacity: 0 }}
+      className="flex bg-red-200  mb-4 rounded-lg alert"
+    >
       <div className="w-16 bg-red-500 rounded-lg rounded-r-none">
         <div className="p-4">{type === "success" ? success : danger}</div>
       </div>
       <div className="w-auto text-black opacity-75 items-center p-4">
         <p>{message}</p>
       </div>
-    </div>
+    </motion.div>
   );
 }
 

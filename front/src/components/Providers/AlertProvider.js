@@ -7,7 +7,6 @@ export default function AlertProvider({ children }) {
 
   const addAlert = (message, type) => {
     setAlert({ message, type });
-
     setTimeout(() => removeAlert(), 10000);
   };
 
