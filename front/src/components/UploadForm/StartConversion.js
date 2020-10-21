@@ -4,6 +4,7 @@ import PropTypes from "prop-types";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSync } from "@fortawesome/free-solid-svg-icons";
 import Image from "./Image";
+import { motion } from "framer-motion";
 
 export default function ImageBeginConversion({
   uploadedImages,
@@ -15,7 +16,13 @@ export default function ImageBeginConversion({
   const [height, setHeight] = useState(300);
   const [width, setWidth] = useState(300);
   return (
-    <div className="flex border-dotted border-2 justify-center items-center h-full rounded-lg  shadow-inner py-24">
+    <motion.div
+      initial={{ x: "+500px", opacity: 0 }}
+      animate={{ x: 0, opacity: 1 }}
+      exit={{ x: "-500px", opacity: 0 }}
+      transition={{ type: "tween" }}
+      className="flex border-dotted border-2 justify-center items-center h-full rounded-lg  shadow-inner py-24"
+    >
       <div className="w-full flex flex-col justify-center items-center">
         <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4 px-4 mx-auto">
           {uploadedImages.map((image) => (
@@ -83,7 +90,7 @@ export default function ImageBeginConversion({
           </button>
         )}
       </div>
-    </div>
+    </motion.div>
   );
 }
 

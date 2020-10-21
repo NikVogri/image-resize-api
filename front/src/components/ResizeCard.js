@@ -1,6 +1,8 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import ImageUpload from "./UploadForm/ImageUpload";
 import StartConversion from "./UploadForm/StartConversion";
+import { AnimatePresence } from "framer-motion";
+import AlertContext from "../context/alertContext";
 
 import axios from "axios";
 
@@ -8,12 +10,23 @@ export default function Card() {
   const [images, setImages] = useState([]);
   const [showUpload, setShowUpload] = useState(true);
   const [conversionFinished, setConversionFinished] = useState(false);
+  const { addAlert } = useContext(AlertContext);
 
   const addImageToListHandler = (uploadedImages) => {
     let unique = true;
 
+    console.log("adding images", uploadedImages);
+
     if (uploadedImages.length > 8) {
-      console.log("Up to 8 images");
+      addAlert("Upload a maximum of 8 images!", "danger");
+      return;
+    }
+
+    if (!uploadedImages.length) {
+      addAlert(
+        "Uploaded file type is not supported, supported file types: png, jpeg and jpg.",
+        "warning"
+      );
       return;
     }
 
@@ -42,9 +55,14 @@ export default function Card() {
   };
 
   const removeImageFromListHandler = (imageToRemove) => {
-    setImages((prevImages) =>
-      prevImages.filter((image) => image.image !== imageToRemove)
-    );
+    setImages((prevImages) => {
+      if (prevImages.length === 1) {
+        setShowUpload(true);
+        return [];
+      } else {
+        return prevImages.filter((image) => image.image !== imageToRemove);
+      }
+    });
   };
 
   const convertImagesHandler = async (width, height) => {
@@ -94,20 +112,22 @@ export default function Card() {
   };
 
   return (
-    <div
-      className="bg-white w-full rounded-lg shadow  p-6"
-      style={{ height: "70vh" }}
-    >
-      {showUpload && <ImageUpload addImageToList={addImageToListHandler} />}
-      {!showUpload && (
-        <StartConversion
-          uploadedImages={images}
-          removeFromList={removeImageFromListHandler}
-          convertImages={convertImagesHandler}
-          conversionFinished={conversionFinished}
-          showUploadForm={resetHandler}
-        />
-      )}
+    <div className="bg-white w-full rounded-lg shadow  p-6 overflow-hidden">
+      <AnimatePresence>
+        {showUpload && !images.length && (
+          <ImageUpload addImageToList={addImageToListHandler} />
+        )}
+
+        {!showUpload && images.length && (
+          <StartConversion
+            uploadedImages={images}
+            removeFromList={removeImageFromListHandler}
+            convertImages={convertImagesHandler}
+            conversionFinished={conversionFinished}
+            showUploadForm={resetHandler}
+          />
+        )}
+      </AnimatePresence>
     </div>
   );
 }

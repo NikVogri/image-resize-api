@@ -2,6 +2,7 @@ import React from "react";
 import { useDropzone } from "react-dropzone";
 import PropTypes from "prop-types";
 import uploadPng from "../../images/upload_images.png";
+import { motion } from "framer-motion";
 
 export default function ImageUpload({ addImageToList }) {
   const { getRootProps, getInputProps } = useDropzone({
@@ -15,9 +16,13 @@ export default function ImageUpload({ addImageToList }) {
   }
 
   return (
-    <div
+    <motion.div
+      initial={{ y: 0, x: "+500px", opacity: 0 }}
+      animate={{ y: 0, x: 0, opacity: 1 }}
+      transition={{ type: "tween" }}
+      exit={{ x: "-500px", opacity: 0 }}
       {...getRootProps({ className: "dropzone" })}
-      className="flex border-dotted border-2 justify-center items-center h-full   rounded-lg  shadow-inner py-24"
+      className="flex border-dotted border-2 justify-center items-center h-full   rounded-lg  shadow-inner py-24 "
     >
       <input {...getInputProps()} />
       <div className="w-full flex flex-col justify-center items-center">
@@ -37,7 +42,7 @@ export default function ImageUpload({ addImageToList }) {
           Upload Images
         </button>
       </div>
-    </div>
+    </motion.div>
   );
 }
 
