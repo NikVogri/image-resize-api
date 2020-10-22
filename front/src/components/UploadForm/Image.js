@@ -85,5 +85,4 @@ export default function ReadyToUploadImage({ image, removeFromList }) {
 ReadyToUploadImage.propTypes = {
   image: PropTypes.object,
   removeFromList: PropTypes.func,
-  loading: PropTypes.bool,
 };

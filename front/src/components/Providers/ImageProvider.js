@@ -57,7 +57,7 @@ export default function AlertProvider({ children }) {
     );
   };
 
-  const convertImagesHandler = async (width, height) => {
+  const convertImagesHandler = async (configuration) => {
     try {
       let newImagesState = [...images];
       for (let i = 0; i < images.length; i++) {
@@ -67,18 +67,16 @@ export default function AlertProvider({ children }) {
         };
         setImages(newImagesState);
 
-        const imageData = new FormData();
-        imageData.append("image", images[i].image);
+        const data = new FormData();
+        data.append("image", images[i].image);
+        data.append("config", JSON.stringify(configuration));
 
         const res = await axios.post(
-          `${process.env.GATSBY_API_URL}/api/v1/resize/${width}/${height}`,
-          imageData,
-          {
-            headers: {
-              "Content-Type": "multipart/form-data",
-            },
-          }
+          `${process.env.GATSBY_API_URL}/api/v1/modify`,
+          data
         );
+
+        console.log("response", res);
 
         newImagesState = [...newImagesState];
         newImagesState[i] = {
@@ -90,6 +88,7 @@ export default function AlertProvider({ children }) {
         setImages(newImagesState);
         setConversionFinished(true);
       }
+      return true;
     } catch (err) {
       console.log(err);
       return;

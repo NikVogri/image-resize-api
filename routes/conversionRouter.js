@@ -7,15 +7,6 @@ const upload = multer({ storage: storage });
 
 const router = express.Router();
 
-router.post(
-  "/resize/:width/:height",
-  upload.single("image"),
-  conversionController.resize
-);
-router.post(
-  "/convert/:type",
-  upload.single("image"),
-  conversionController.convert
-);
+router.post("/modify", upload.single("image"), conversionController.modify);
 
 module.exports = router;
