@@ -1,45 +1,33 @@
-const { convertImageSize, changeImageType } = require("../libs/conversion");
+const {
+  convertImageSize,
+  trimImage,
+  changeImageQuality,
+  sharpenImage,
+  grayscaleImage,
+  rotateImage,
+} = require("../libs/conversion");
 
 const SUPPORTED_CONVERSION_TYPES = ["png", "webp", "jpeg"];
 
-exports.convert = async (req, res) => {
-  const { type } = req.params;
+exports.modify = async (req, res) => {
+  console.log(req.body);
+  const { resize, trim, sharpen, grayscale, quality, rotate } = JSON.parse(
+    req.body.config
+  );
 
-  if (type && SUPPORTED_CONVERSION_TYPES.includes(type)) {
-    const convertedImage = await changeImageType(req.file.buffer, type);
-
-    if (!convertedImage) {
-      return res.status(500).json({
-        success: false,
-        msg: `Image could not be converted to ${type}, please try again later.`,
-      });
-    }
-
-    res.contentType("image/jpeg");
-    return res.end(convertedImage);
-  }
-
-  res.status(400).json({
-    success: false,
-    msg: `Either no image type specified, or we don't support that image type, please use: png, jpeg, webp`,
-  });
-};
-
-exports.resize = async (req, res) => {
-  const { width, height } = req.params;
-
-  if (width && height) {
-    if (width > 5000 || height > 5000) {
+  let convertedImage;
+  if (resize.width && resize.height) {
+    if (resize.width > 5000 || resize.height > 5000) {
       return res.json({
         success: false,
         msg: "Image height or width is too big, maximum 5000x5000!",
       });
     }
 
-    const convertedImage = await convertImageSize(
-      req.file.buffer,
-      width,
-      height
+    convertedImage = await convertImageSize(
+      convertedImage || req.file.buffer,
+      resize.width,
+      resize.height
     );
 
     if (!convertedImage) {
@@ -48,12 +36,76 @@ exports.resize = async (req, res) => {
         msg: "Image could not be converted, please try again later.",
       });
     }
-
-    res.contentType("image/jpeg");
-    return res.end(convertedImage);
   }
-  res.status(400).json({
-    success: false,
-    msg: "Please provide width and height of desired image size.",
-  });
+
+  if (trim.width && trim.height) {
+    convertedImage = await trimImage(
+      convertedImage || req.file.buffer,
+      trim.width,
+      trim.height
+    );
+
+    if (!convertedImage) {
+      return res.json({
+        success: false,
+        msg: "Image could not be trimmed, please try again later.",
+      });
+    }
+  }
+
+  if (sharpen) {
+    convertedImage = await sharpenImage(convertedImage || req.file.buffer);
+
+    if (!convertedImage) {
+      return res.json({
+        success: false,
+        msg: "Image could not be sharpened, please try again later.",
+      });
+    }
+  }
+
+  if (quality) {
+    convertedImage = await changeImageQuality(
+      convertedImage || req.file.buffer,
+      quality
+    );
+
+    if (!convertedImage) {
+      return res.json({
+        success: false,
+        msg: "Image could not change image quality, please try again later.",
+      });
+    }
+  }
+
+  if (grayscale) {
+    convertedImage = await grayscaleImage(
+      convertedImage || req.file.buffer,
+      quality
+    );
+
+    if (!convertedImage) {
+      return res.json({
+        success: false,
+        msg: "Image could not be grayscaled, please try again later.",
+      });
+    }
+  }
+
+  if (rotate) {
+    convertedImage = await rotateImage(
+      convertedImage || req.file.buffer,
+      rotate
+    );
+
+    if (!convertedImage) {
+      return res.json({
+        success: false,
+        msg: "Image could not be rotated, please try again later.",
+      });
+    }
+  }
+
+  res.contentType("image/jpeg");
+  return res.end(convertedImage.toString("base64"));
 };
