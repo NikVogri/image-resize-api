@@ -96,7 +96,6 @@ export default function AlertProvider({ children }) {
   };
 
   const resetHandler = () => {
-    // setShowUpload(true);
     setImages([]);
     setConversionFinished(false);
   };
