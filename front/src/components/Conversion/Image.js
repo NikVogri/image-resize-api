@@ -1,12 +1,8 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { motion } from "framer-motion";
 import PropTypes from "prop-types";
 
 export default function ReadyToUploadImage({ image, removeFromList }) {
-  useEffect(() => {
-    console.log(image);
-  }, [image]);
-
   return (
     <motion.div
       className="flex justify-between items-center rounded-lg h-full "

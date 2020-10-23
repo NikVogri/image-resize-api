@@ -1,12 +1,23 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect } from "react";
 import PropTypes from "prop-types";
 import Image from "./Image";
 import { motion } from "framer-motion";
 import ImageContext from "../../context/ImageContext";
 
 export default function UploadedImages({ nextComponent }) {
-  const { images, removeImage } = useContext(ImageContext);
+  const { images, remove } = useContext(ImageContext);
 
+  const removeImageHandler = (image) => {
+    remove(image);
+
+    if (images.length - 1 === 0) {
+      nextComponent(0);
+    }
+  };
+
+  useEffect(() => {
+    console.log(images);
+  }, []);
   return (
     <motion.div
       initial={{ x: "+500px", opacity: 0 }}
@@ -21,7 +32,7 @@ export default function UploadedImages({ nextComponent }) {
             <Image
               image={image}
               key={image.image.path}
-              removeFromList={removeImage}
+              removeFromList={removeImageHandler}
             />
           ))}
         </div>

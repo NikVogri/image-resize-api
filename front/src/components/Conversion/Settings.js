@@ -20,7 +20,7 @@ export default function ImageSettings({ nextComponent }) {
     output: "",
   });
 
-  const { convertImages } = useContext(ImageContext);
+  const { convert } = useContext(ImageContext);
   const { addAlert } = useContext(AlertContext);
 
   const changeHandler = (val, key) => {
@@ -49,7 +49,7 @@ export default function ImageSettings({ nextComponent }) {
 
   const convertHandler = async () => {
     try {
-      const res = await convertImages(configuration);
+      const res = await convert(configuration);
 
       if (!res) {
         addAlert("Images could not be converted, please try again later.");

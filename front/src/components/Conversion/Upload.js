@@ -13,7 +13,7 @@ export default function ImageUpload({ nextComponent }) {
   });
 
   const { addAlert } = useContext(AlertContext);
-  const { addImages } = useContext(ImageContext);
+  const { add } = useContext(ImageContext);
 
   function onDrop(acceptedFiles) {
     if (!acceptedFiles.length) {
@@ -24,7 +24,7 @@ export default function ImageUpload({ nextComponent }) {
       return;
     }
 
-    addImages(acceptedFiles);
+    add(acceptedFiles);
     nextComponent();
   }
 

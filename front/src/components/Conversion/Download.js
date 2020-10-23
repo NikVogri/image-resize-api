@@ -5,10 +5,10 @@ import Image from "./Image";
 import PropTypes from "prop-types";
 
 export default function DownloadImages({ nextComponent }) {
-  const { images, resetImages } = useContext(ImageContext);
+  const { images, reset } = useContext(ImageContext);
 
   const resetHandler = () => {
-    resetImages();
+    reset();
     nextComponent();
   };
 

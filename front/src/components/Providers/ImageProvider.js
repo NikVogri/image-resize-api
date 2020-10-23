@@ -6,101 +6,92 @@ import axios from "axios";
 
 export default function AlertProvider({ children }) {
   const [images, setImages] = useState([]);
-  const [conversionFinished, setConversionFinished] = useState(false);
+  const [loading, setLoading] = useState(false);
   const { addAlert } = useContext(AlertContext);
 
   const addImageToListHandler = (uploadedImages) => {
-    let unique = true;
-
     console.log("adding images", uploadedImages);
 
     if (uploadedImages.length > 8) {
-      addAlert("Upload a maximum of 8 images!", "danger");
-      return;
+      return addAlert("Upload a maximum of 8 images!", "danger");
     }
 
-    images.forEach((image) => {
-      uploadedImages.forEach((uploadedImage) => {
-        console.log(image.image, uploadedImage);
-        if (image.image.name === uploadedImage.name) {
-          unique = false;
-        }
-      });
+    const cleanUploadedImages = uploadedImages.map((image) => {
+      const uploadedImage = {
+        loading: false,
+        image: image,
+        completed: false,
+        download: null,
+      };
+
+      if (images.indexOf(uploadedImage) === -1) {
+        return uploadedImage;
+      }
     });
 
-    const cleanUploadedImages = uploadedImages.map((image) => ({
-      loading: false,
-      image: image,
-      completed: false,
-      download: null,
-    }));
-
-    if (unique) {
-      setImages([...images, ...cleanUploadedImages]);
-      // setShowUpload(false);
-    } else {
-      console.log("Image exists");
-    }
+    setImages([...images, ...cleanUploadedImages]);
   };
 
   const removeImageFromListHandler = (imageToRemove) => {
+    if (images.length - 1 === 0) return resetHandler();
+
     setImages((prevImages) =>
       prevImages.filter((image) => image.image !== imageToRemove)
     );
+
+    console.log(images);
   };
 
   const convertImagesHandler = async (configuration) => {
+    setLoading(true);
     try {
-      let newImagesState = [...images];
       for (let i = 0; i < images.length; i++) {
-        newImagesState[i] = {
-          ...images[i],
-          loading: true,
-        };
-        setImages(newImagesState);
-
-        const data = new FormData();
-        data.append("image", images[i].image);
-        data.append("config", JSON.stringify(configuration));
-
         const res = await axios.post(
           `${process.env.GATSBY_API_URL}/api/v1/modify`,
-          data
+          getFormData(images[i].image, configuration)
         );
 
         console.log("response", res);
 
-        newImagesState = [...newImagesState];
-        newImagesState[i] = {
-          ...images[i],
-          loading: false,
-          download: res.data,
-          completed: true,
-        };
-        setImages(newImagesState);
-        setConversionFinished(true);
+        setImages((prevImages) => {
+          const newImages = [...prevImages];
+
+          newImages[i] = {
+            ...images[i],
+            download: res.data,
+            completed: true,
+          };
+
+          return newImages;
+        });
       }
+      setLoading(false);
       return true;
     } catch (err) {
       console.log(err);
-      return;
     }
+  };
+
+  const getFormData = (image, configuration) => {
+    const data = new FormData();
+    data.append("image", image);
+    data.append("config", JSON.stringify(configuration));
+    return data;
   };
 
   const resetHandler = () => {
     setImages([]);
-    setConversionFinished(false);
   };
 
   return (
     <ImageContext.Provider
       value={{
-        conversionFinished: conversionFinished,
-        addImages: addImageToListHandler,
-        resetImages: resetHandler,
-        images: images,
-        removeImage: removeImageFromListHandler,
-        convertImages: convertImagesHandler,
+        add: addImageToListHandler,
+        reset: resetHandler,
+        loading,
+        images,
+        remove: removeImageFromListHandler,
+        convert: convertImagesHandler,
       }}
     >
       {children}

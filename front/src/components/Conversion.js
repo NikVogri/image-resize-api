@@ -15,12 +15,17 @@ const COMPONENT_LIST_PATH = [
 export default function Card() {
   const [component, setComponent] = useState("upload");
 
-  const nextComponentHandler = () => {
-    console.log("here next component");
+  const nextComponentHandler = (index) => {
+    if (typeof index === "number") {
+      return setComponent(COMPONENT_LIST_PATH[index]);
+    }
+
     const step = COMPONENT_LIST_PATH.indexOf(component);
+
     if (step === COMPONENT_LIST_PATH.length - 1) {
       return setComponent(COMPONENT_LIST_PATH[0]);
     }
+
     setComponent(COMPONENT_LIST_PATH[step + 1]);
   };
 
