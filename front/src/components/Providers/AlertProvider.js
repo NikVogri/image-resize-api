@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import AlertContext from "../../context/alertContext";
+import AlertContext from "../../context/AlertContext";
 import PropTypes from "prop-types";
 
 export default function AlertProvider({ children }) {

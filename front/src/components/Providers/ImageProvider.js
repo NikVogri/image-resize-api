@@ -1,6 +1,6 @@
 import React, { useState, useContext } from "react";
-import ImageContext from "../../context/imageContext";
-import AlertContext from "../../context/alertContext";
+import ImageContext from "../../context/ImageContext";
+import AlertContext from "../../context/AlertContext";
 import PropTypes from "prop-types";
 import axios from "axios";
 
@@ -16,14 +16,6 @@ export default function AlertProvider({ children }) {
 
     if (uploadedImages.length > 8) {
       addAlert("Upload a maximum of 8 images!", "danger");
-      return;
-    }
-
-    if (!uploadedImages.length) {
-      addAlert(
-        "Uploaded file type is not supported, supported file types: png, jpeg and jpg.",
-        "warning"
-      );
       return;
     }
 

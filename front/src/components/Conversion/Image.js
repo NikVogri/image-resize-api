@@ -3,8 +3,6 @@ import { motion } from "framer-motion";
 import PropTypes from "prop-types";
 
 export default function ReadyToUploadImage({ image, removeFromList }) {
-  // const [download, setDownload] = useState(null);
-
   useEffect(() => {
     console.log(image);
   }, [image]);

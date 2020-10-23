@@ -1,11 +1,11 @@
 import React, { useContext } from "react";
 
-import AlertContext from "../context/alertContext";
+import AlertContext from "../context/AlertContext";
 import { AnimatePresence } from "framer-motion";
-import Layout from "../components/layout";
-import SEO from "../components/seo";
+import Layout from "../components/Layout/Layout";
+import SEO from "../components/Layout/Seo";
 import Alert from "../components/Alert";
-import ResizeCard from "../components/ResizeCard";
+import Conversion from "../components/Conversion";
 import ImageProvider from "../components/Providers/ImageProvider";
 
 function IndexPage() {
@@ -22,7 +22,7 @@ function IndexPage() {
       </AnimatePresence>
       <ImageProvider>
         <section className="text-center container">
-          <ResizeCard />
+          <Conversion />
         </section>
       </ImageProvider>
     </Layout>

@@ -11,7 +11,7 @@ export default function Alert({ message, type }) {
       className="flex bg-red-200  mb-4 rounded-lg alert"
     >
       <div className="w-16 bg-red-500 rounded-lg rounded-r-none">
-        <div className="p-4">{type === "success" ? success : danger}</div>
+        <div className="p-4">{type === "success" ? successSvg : dangerSvg}</div>
       </div>
       <div className="w-auto text-black opacity-75 items-center p-4">
         <p>{message}</p>
@@ -25,7 +25,7 @@ Alert.propTypes = {
   type: PropTypes.string,
 };
 
-const success = (
+const successSvg = (
   <svg
     className="h-8 w-8 text-white fill-current"
     xmlns="http://www.w3.org/2000/svg"
@@ -36,7 +36,7 @@ const success = (
   </svg>
 );
 
-const danger = (
+const dangerSvg = (
   <svg
     className="h-8 w-8 text-white fill-current"
     xmlns="http://www.w3.org/2000/svg"

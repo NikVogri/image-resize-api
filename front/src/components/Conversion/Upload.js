@@ -1,6 +1,7 @@
 import React, { useContext } from "react";
 import { useDropzone } from "react-dropzone";
-import ImageContext from "../../context/imageContext";
+import ImageContext from "../../context/ImageContext";
+import AlertContext from "../../context/AlertContext";
 import uploadPng from "../../images/upload_images.png";
 import { motion } from "framer-motion";
 import PropTypes from "prop-types";
@@ -11,12 +12,19 @@ export default function ImageUpload({ nextComponent }) {
     onDrop,
   });
 
+  const { addAlert } = useContext(AlertContext);
   const { addImages } = useContext(ImageContext);
 
   function onDrop(acceptedFiles) {
-    console.log(acceptedFiles);
+    if (!acceptedFiles.length) {
+      addAlert(
+        "Uploaded file type is not supported, supported file types: png, jpeg and jpg.",
+        "warning"
+      );
+      return;
+    }
+
     addImages(acceptedFiles);
-    console.log(typeof nextComponent);
     nextComponent();
   }
 

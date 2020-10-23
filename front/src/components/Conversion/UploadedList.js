@@ -1,16 +1,11 @@
 import React, { useContext } from "react";
-import ImageContext from "../context/imageContext";
-import { motion } from "framer-motion";
-import Image from "./UploadForm/Image";
 import PropTypes from "prop-types";
+import Image from "./Image";
+import { motion } from "framer-motion";
+import ImageContext from "../../context/ImageContext";
 
-export default function DownloadImages({ nextComponent }) {
-  const { images, resetImages } = useContext(ImageContext);
-
-  const resetHandler = () => {
-    resetImages();
-    nextComponent();
-  };
+export default function UploadedImages({ nextComponent }) {
+  const { images, removeImage } = useContext(ImageContext);
 
   return (
     <motion.div
@@ -23,11 +18,15 @@ export default function DownloadImages({ nextComponent }) {
       <div className="w-full flex flex-col justify-center items-center">
         <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4 px-4 mx-auto">
           {images.map((image) => (
-            <Image image={image} key={image.image.path} />
+            <Image
+              image={image}
+              key={image.image.path}
+              removeFromList={removeImage}
+            />
           ))}
         </div>
 
-        <button className="button" onClick={resetHandler}>
+        <button className="button" onClick={nextComponent}>
           <svg
             xmlns="http://www.w3.org/2000/svg"
             width="20"
@@ -44,13 +43,13 @@ export default function DownloadImages({ nextComponent }) {
               ></path>
             </g>
           </svg>
-          <span>Convert More Images</span>
+          <span>Next</span>
         </button>
       </div>
     </motion.div>
   );
 }
 
-DownloadImages.propTypes = {
+UploadedImages.propTypes = {
   nextComponent: PropTypes.func,
 };

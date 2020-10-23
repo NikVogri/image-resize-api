@@ -1,5 +1,6 @@
-import React, { useState, useContext, useEffect } from "react";
-import ImageContext from "../context/imageContext";
+import React, { useState, useContext } from "react";
+import ImageContext from "../../context/ImageContext";
+import AlertContext from "../../context/AlertContext";
 import { motion } from "framer-motion";
 import PropTypes from "prop-types";
 
@@ -19,11 +20,8 @@ export default function ImageSettings({ nextComponent }) {
     output: "",
   });
 
-  useEffect(() => {
-    console.log("here", images[0]);
-  }, [configuration]);
-
-  const { images, convertImages } = useContext(ImageContext);
+  const { convertImages } = useContext(ImageContext);
+  const { addAlert } = useContext(AlertContext);
 
   const changeHandler = (val, key) => {
     setConfiguration((prevConfiguration) => {
@@ -50,9 +48,15 @@ export default function ImageSettings({ nextComponent }) {
   };
 
   const convertHandler = async () => {
-    const res = await convertImages(configuration);
+    try {
+      const res = await convertImages(configuration);
 
-    if (res) {
+      if (!res) {
+        addAlert("Images could not be converted, please try again later.");
+      }
+    } catch (err) {
+      addAlert(err.message);
+    } finally {
       nextComponent();
     }
   };

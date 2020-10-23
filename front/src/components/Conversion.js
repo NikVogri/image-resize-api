@@ -1,8 +1,8 @@
 import React, { useState } from "react";
-import ImageUpload from "./UploadForm/ImageUpload";
-import UploadedImages from "./UploadForm/UploadedImages";
-import ImageSettings from "./ImageSettings";
-import DownloadImages from "./DownloadImages";
+import Upload from "./Conversion/Upload";
+import UploadedList from "./Conversion/UploadedList";
+import Settings from "./Conversion/Settings";
+import Download from "./Conversion/Download";
 import { AnimatePresence } from "framer-motion";
 
 const COMPONENT_LIST_PATH = [
@@ -28,16 +28,16 @@ export default function Card() {
     <div className="bg-white w-full rounded-lg shadow  p-6 overflow-hidden">
       <AnimatePresence>
         {component === "upload" && (
-          <ImageUpload nextComponent={nextComponentHandler} />
+          <Upload nextComponent={nextComponentHandler} />
         )}
         {component === "uploaded_images" && (
-          <UploadedImages nextComponent={nextComponentHandler} />
+          <UploadedList nextComponent={nextComponentHandler} />
         )}
         {component === "configuration" && (
-          <ImageSettings nextComponent={nextComponentHandler} />
+          <Settings nextComponent={nextComponentHandler} />
         )}
         {component === "download_images" && (
-          <DownloadImages nextComponent={nextComponentHandler} />
+          <Download nextComponent={nextComponentHandler} />
         )}
       </AnimatePresence>
     </div>
