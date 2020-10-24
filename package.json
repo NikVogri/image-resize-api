@@ -1,6 +1,6 @@
 {
   "name": "image-resizer-api",
-  "version": "0.0.4",
+  "version": "1.0.0",
   "description": "resize images with api calls",
   "main": "app.js",
   "scripts": {
