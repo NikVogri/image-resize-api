@@ -11,13 +11,7 @@ export default function ReadyToUploadImage({ image, removeFromList }) {
       layout
       transition={{ duration: 0.2 }}
     >
-      <div
-        className={`flex items-center relative h-full ${
-          image.completed
-            ? "border-8  rounded solid border-green-400"
-            : "border-8  rounded solid border-gray-200"
-        }`}
-      >
+      <div className={`flex items-center relative h-full `}>
         <img
           src={
             !image.completed
