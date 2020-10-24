@@ -35,7 +35,7 @@ export default function ImageUpload({ nextComponent }) {
       transition={{ type: "tween" }}
       exit={{ x: "-500px", opacity: 0 }}
       {...getRootProps({ className: "dropzone" })}
-      className="flex border-dotted border-2 justify-center items-center h-full   rounded-lg  shadow-inner py-24 "
+      className="flex border-dotted border-2 justify-center items-center h-full   rounded-lg  shadow-inner py-4 md:py-24 "
     >
       <input {...getInputProps()} />
       <div className="w-full flex flex-col justify-center items-center">

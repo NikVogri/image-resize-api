@@ -24,10 +24,10 @@ export default function UploadedImages({ nextComponent }) {
       animate={{ x: 0, opacity: 1 }}
       exit={{ x: "-500px", opacity: 0 }}
       transition={{ type: "tween" }}
-      className="flex justify-center items-center h-full rounded-lg  shadow-inner py-24"
+      className="flex justify-center items-center h-full rounded-lg  shadow-inner py-4 md:py-24"
     >
       <div className="w-full flex flex-col justify-center items-center">
-        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4 px-4 mx-auto">
+        <div className="md:grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4 px-4 mx-auto">
           {images.map((image) => (
             <Image
               image={image}

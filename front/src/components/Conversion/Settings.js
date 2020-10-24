@@ -1,6 +1,5 @@
 import React, { useState, useContext } from "react";
 import ImageContext from "../../context/ImageContext";
-import AlertContext from "../../context/AlertContext";
 import { motion } from "framer-motion";
 import PropTypes from "prop-types";
 
@@ -21,7 +20,6 @@ export default function ImageSettings({ nextComponent }) {
   });
 
   const { convert } = useContext(ImageContext);
-  const { addAlert } = useContext(AlertContext);
 
   const changeHandler = (val, key) => {
     setConfiguration((prevConfiguration) => {
@@ -47,18 +45,9 @@ export default function ImageSettings({ nextComponent }) {
     });
   };
 
-  const convertHandler = async () => {
-    try {
-      const res = await convert(configuration);
-
-      if (!res) {
-        addAlert("Images could not be converted, please try again later.");
-      }
-    } catch (err) {
-      addAlert(err.message);
-    } finally {
-      nextComponent();
-    }
+  const convertHandler = () => {
+    convert(configuration);
+    nextComponent();
   };
 
   console.log(configuration);
@@ -68,7 +57,7 @@ export default function ImageSettings({ nextComponent }) {
       animate={{ x: 0, opacity: 1 }}
       exit={{ x: "-500px", opacity: 0 }}
       transition={{ type: "tween" }}
-      className=" md:flex justify-around text-left items-center h-full rounded-lg  shadow-inner py-24"
+      className=" md:flex justify-around text-left items-center h-full rounded-lg  py-4 md:py-24-24"
     >
       <div>
         <h4 className="text-left font-bold text-lg my-3">Resize</h4>

@@ -68,7 +68,7 @@ export default function AlertProvider({ children }) {
       setLoading(false);
       return true;
     } catch (err) {
-      console.log(err);
+      addAlert("Images could not be converted, please try again later!");
     }
   };
 

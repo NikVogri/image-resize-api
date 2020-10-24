@@ -3,12 +3,15 @@ import Upload from "./Conversion/Upload";
 import UploadedList from "./Conversion/UploadedList";
 import Settings from "./Conversion/Settings";
 import Download from "./Conversion/Download";
+import Loading from "./Conversion/Loading";
+
 import { AnimatePresence } from "framer-motion";
 
 const COMPONENT_LIST_PATH = [
   "upload",
   "uploaded_images",
   "configuration",
+  "loading",
   "download_images",
 ];
 
@@ -30,7 +33,7 @@ export default function Card() {
   };
 
   return (
-    <div className="bg-white w-full rounded-lg shadow  p-6 overflow-hidden">
+    <div className="bg-white w-full rounded-lg shadow  p-6 overflow-hidden mb-4">
       <AnimatePresence>
         {component === "upload" && (
           <Upload nextComponent={nextComponentHandler} />
@@ -43,6 +46,9 @@ export default function Card() {
         )}
         {component === "download_images" && (
           <Download nextComponent={nextComponentHandler} />
+        )}
+        {component === "loading" && (
+          <Loading nextComponent={nextComponentHandler} />
         )}
       </AnimatePresence>
     </div>

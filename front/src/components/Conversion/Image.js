@@ -5,7 +5,7 @@ import PropTypes from "prop-types";
 export default function ReadyToUploadImage({ image, removeFromList }) {
   return (
     <motion.div
-      className="flex justify-between items-center rounded-lg h-full "
+      className="flex justify-between items-center rounded-lg h-full mb-4 md:mb-0"
       initial={{ left: "-20px" }}
       animate={{ left: 0 }}
       layout
