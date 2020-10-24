@@ -26,10 +26,20 @@ position: absolute;
   @apply .bg-blue-800
 }
 
+
 @media only screen and (max-width: 660px) {
   .alert{
     left: 5%;
     width: 90%;
   }
+  .card-height {
+    min-height: calc(100vh - 100px);
+  }
+
+  .upload {
+    min-height: calc(100vh - 150px)
+  }
 }
+
+
 

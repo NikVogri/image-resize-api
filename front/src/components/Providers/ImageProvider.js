@@ -12,10 +12,6 @@ export default function AlertProvider({ children }) {
   const addImageToListHandler = (uploadedImages) => {
     console.log("adding images", uploadedImages);
 
-    if (uploadedImages.length > 8) {
-      return addAlert("Upload a maximum of 8 images!", "danger");
-    }
-
     const cleanUploadedImages = uploadedImages.map((image) => {
       const uploadedImage = {
         loading: false,

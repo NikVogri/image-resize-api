@@ -19,7 +19,11 @@ export default function ReadyToUploadImage({ image, removeFromList }) {
         }`}
       >
         <img
-          src={URL.createObjectURL(image.image)}
+          src={
+            !image.completed
+              ? URL.createObjectURL(image.image)
+              : "data:application/octet-stream;base64," + image.download
+          }
           alt="Logo"
           style={{ objectFit: "cover" }}
         />
@@ -48,14 +52,19 @@ export default function ReadyToUploadImage({ image, removeFromList }) {
         )}
         {image.completed && (
           <a
-            className="bg-green-400 hover:bg-blue-600 p-2 rounded-full right-0 top-0 absolute shadow-md mt-2 mr-2 "
+            className="bg-green-400 hover:bg-blue-600 p-2 rounded-lg inset-x-auto absolute shadow-md "
             href={"data:application/octet-stream;base64," + image.download}
             download={image.image.name}
+            style={{
+              left: "50%",
+              top: "50%",
+              transform: "translate(-50%, -50%)",
+            }}
           >
             <svg
               xmlns="http://www.w3.org/2000/svg"
-              width="24"
-              height="24"
+              width="35"
+              height="35"
               viewBox="0 0 24 24"
             >
               <title>download</title>

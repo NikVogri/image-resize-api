@@ -33,7 +33,7 @@ export default function Card() {
   };
 
   return (
-    <div className="bg-white w-full rounded-lg shadow  p-6 overflow-hidden mb-4">
+    <div className="bg-white w-full rounded-lg shadow p-6 overflow-hidden mb-4 card-height">
       <AnimatePresence>
         {component === "upload" && (
           <Upload nextComponent={nextComponentHandler} />

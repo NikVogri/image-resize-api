@@ -3,6 +3,7 @@ import { useDropzone } from "react-dropzone";
 import ImageContext from "../../context/ImageContext";
 import AlertContext from "../../context/AlertContext";
 import uploadPng from "../../images/upload_images.png";
+import { MAX_UPLOAD_FILES } from "../../config/config";
 import { motion } from "framer-motion";
 import PropTypes from "prop-types";
 
@@ -24,8 +25,11 @@ export default function ImageUpload({ nextComponent }) {
       return;
     }
 
-    add(acceptedFiles);
+    if (acceptedFiles.length > MAX_UPLOAD_FILES) {
+      return addAlert("Upload a maximum of 8 images!", "danger");
+    }
     nextComponent();
+    add(acceptedFiles);
   }
 
   return (
@@ -35,7 +39,7 @@ export default function ImageUpload({ nextComponent }) {
       transition={{ type: "tween" }}
       exit={{ x: "-500px", opacity: 0 }}
       {...getRootProps({ className: "dropzone" })}
-      className="flex border-dotted border-2 justify-center items-center h-full   rounded-lg  shadow-inner py-4 md:py-24 "
+      className="flex border-dotted border-2 justify-center items-center rounded-lg shadow-inner py-2 md:py-4 md:py-24 upload"
     >
       <input {...getInputProps()} />
       <div className="w-full flex flex-col justify-center items-center">
